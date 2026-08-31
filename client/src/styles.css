@@ -2,6 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply text-slate-900;
+@layer base {
+  body {
+    background-color: #F7F6F2;
+    color: #1E1E2A;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #1E1E2A;
+  }
 }
+
+/* Custom Design System Components */
+.btn-primary {
+  @apply bg-deep-indigo text-white font-medium px-4 py-2.5 rounded-lg transition-all duration-150 hover:bg-opacity-90 active:scale-[0.98] shadow-sm;
+}
+
+.btn-coral {
+  @apply bg-soft-coral text-white font-medium px-4 py-2.5 rounded-lg transition-all duration-150 hover:bg-opacity-90 active:scale-[0.98] shadow-sm;
+}
+
+.btn-secondary {
+  @apply border border-light-grey text-dark-slate font-medium px-4 py-2.5 rounded-lg transition-all duration-150 hover:bg-white hover:border-soft-stone active:scale-[0.98];
+}
+
+.input-field {
+  @apply w-full rounded-lg border border-light-grey bg-white px-3.5 py-2.5 text-sm text-dark-slate placeholder-soft-stone transition-all focus:border-soft-coral focus:outline-none focus:ring-2 focus:ring-soft-coral/20;
+}
+
+.card-panel {
+  @apply bg-pure-white rounded-xl border border-light-grey p-6 shadow-soft;
+}
+
+.badge-pill {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+}
+

@@ -121,11 +121,11 @@ export default function UserManagement() {
   const getRoleBadge = (role) => {
     switch (role) {
       case "Admin":
-        return "bg-purple-100 text-purple-700";
+        return "bg-deep-indigo/15 text-deep-indigo border border-deep-indigo/20";
       case "PM":
-        return "bg-blue-100 text-blue-700";
+        return "bg-soft-coral/15 text-soft-coral border border-soft-coral/20";
       default:
-        return "bg-slate-100 text-slate-700";
+        return "bg-muted-sage/15 text-muted-sage border border-muted-sage/20";
     }
   };
 
@@ -134,7 +134,7 @@ export default function UserManagement() {
     return (
       <Layout>
         <div className="flex h-screen items-center justify-center">
-          <p className="text-slate-500">{t("common.loading")}</p>
+          <p className="text-xs font-semibold text-soft-stone">{t("common.loading")}</p>
         </div>
       </Layout>
     );
@@ -142,18 +142,18 @@ export default function UserManagement() {
 
   return (
     <Layout title={t("users.title")}>
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:px-8 md:pb-8">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-slate-900 md:hidden">{t("users.title")}</h2>
-            <p className="text-sm text-slate-500 md:hidden">{t("users.manageTeam")}</p>
+            <h2 className="text-2xl font-semibold text-dark-slate md:hidden">{t("users.title")}</h2>
+            <p className="text-xs text-soft-stone md:hidden">{t("users.manageTeam")}</p>
           </div>
           <button
             onClick={() => {
               resetForm();
               setShowForm(true);
             }}
-            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700"
+            className="btn-coral text-xs py-2 px-4"
           >
             + {t("users.addUser")}
           </button>
@@ -161,63 +161,75 @@ export default function UserManagement() {
 
         {/* User Form */}
         {showForm && (
-          <div className="mb-6 rounded-xl bg-white p-4 shadow-soft sm:p-6">
-            <h3 className="mb-4 text-base font-semibold text-slate-900 sm:text-lg">
+          <div className="mb-6 rounded-xl border border-light-grey bg-pure-white p-5 shadow-soft sm:p-6">
+            <h3 className="mb-4 text-base font-semibold text-dark-slate sm:text-lg">
               {editingId ? t("users.editUser") : t("users.createUser")}
             </h3>
             
             {error && (
-              <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+              <div className="mb-4 rounded-lg bg-muted-rose/10 border border-muted-rose/20 p-3 text-xs font-medium text-muted-rose">
                 {error}
               </div>
             )}
             
             <form onSubmit={handleSave} className="flex flex-col gap-4">
-              <input
-                type="text"
-                placeholder={t("users.fullName")}
-                className="rounded-lg border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-              />
-              <input
-                type="email"
-                placeholder={t("users.email")}
-                className="rounded-lg border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-              />
-              <input
-                type="password"
-                placeholder={editingId ? t("users.passwordPlaceholder") : t("users.password")}
-                className="rounded-lg border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                required={!editingId}
-              />
-              <select
-                className="rounded-lg border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              >
-                <option value="Member">{t("users.roles.member")}</option>
-                <option value="PM">{t("users.roles.pm")}</option>
-                <option value="Admin">{t("users.roles.admin")}</option>
-              </select>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-soft-stone">{t("users.fullName")}</label>
+                <input
+                  type="text"
+                  placeholder={t("users.fullName")}
+                  className="input-field"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-soft-stone">{t("users.email")}</label>
+                <input
+                  type="email"
+                  placeholder={t("users.email")}
+                  className="input-field"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-soft-stone">{t("users.password")}</label>
+                <input
+                  type="password"
+                  placeholder={editingId ? t("users.passwordPlaceholder") : t("users.password")}
+                  className="input-field"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required={!editingId}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-soft-stone">{t("users.role")}</label>
+                <select
+                  className="input-field"
+                  value={formData.role}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                >
+                  <option value="Member">{t("users.roles.member")}</option>
+                  <option value="PM">{t("users.roles.pm")}</option>
+                  <option value="Admin">{t("users.roles.admin")}</option>
+                </select>
+              </div>
               
-              <div className="flex gap-2">
+              <div className="flex gap-2 mt-2">
                 <button
                   type="submit"
-                  className="flex-1 rounded-lg bg-slate-900 py-3 text-sm font-medium text-white transition hover:bg-slate-700"
+                  className="flex-1 btn-primary text-xs py-2.5"
                 >
                   {editingId ? t("users.updateUser") : t("users.createUser")}
                 </button>
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="flex-1 rounded-lg border border-slate-200 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                  className="flex-1 btn-secondary text-xs py-2.5"
                 >
                   {t("common.cancel")}
                 </button>
@@ -227,64 +239,69 @@ export default function UserManagement() {
         )}
 
         {/* Users Table - Desktop */}
-        <div className="hidden rounded-xl bg-white shadow-soft md:block">
+        <div className="hidden overflow-hidden rounded-xl border border-light-grey bg-pure-white shadow-soft md:block">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="border-b border-slate-100 bg-slate-50">
+              <thead className="border-b border-light-grey bg-soft-mist">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-600">
+                  <th className="px-6 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-soft-stone">
                     {t("users.name")}
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-600">
+                  <th className="px-6 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-soft-stone">
                     {t("users.email")}
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-600">
+                  <th className="px-6 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-soft-stone">
                     {t("users.role")}
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase text-slate-600">
+                  <th className="px-6 py-3.5 text-left text-[11px] font-semibold uppercase tracking-wider text-soft-stone">
                     {t("users.joined")}
                   </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium uppercase text-slate-600">
+                  <th className="px-6 py-3.5 text-right text-[11px] font-semibold uppercase tracking-wider text-soft-stone">
                     {t("users.actions")}
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-light-grey">
                 {users.map((user) => (
-                  <tr key={user.id} className="transition hover:bg-slate-50">
+                  <tr key={user.id} className="transition hover:bg-soft-mist/50">
                     <td className="whitespace-nowrap px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <p className="font-medium text-slate-900">{user.name}</p>
-                        {user.id === currentUser.id && (
-                          <span className="rounded bg-green-100 px-2 py-0.5 text-xs text-green-700">
-                            {t("users.you")}
-                          </span>
-                        )}
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-soft-coral text-xs font-semibold text-white">
+                          {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <p className="font-semibold text-dark-slate text-xs">{user.name}</p>
+                          {user.id === currentUser.id && (
+                            <span className="rounded-full bg-muted-emerald/15 px-2 py-0.5 text-[10px] font-semibold text-muted-emerald">
+                              {t("users.you")}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
+                    <td className="whitespace-nowrap px-6 py-4 text-xs text-soft-stone">
                       {user.email}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      <span className={`rounded-md px-2 py-1 text-xs font-medium ${getRoleBadge(user.role)}`}>
+                      <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${getRoleBadge(user.role)}`}>
                         {user.role}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
+                    <td className="whitespace-nowrap px-6 py-4 text-xs text-muted-grey">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
                         <button
                           onClick={() => handleEdit(user)}
-                          className="rounded-lg bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700 transition hover:bg-slate-200"
+                          className="rounded-lg border border-light-grey bg-white px-3 py-1.5 text-xs font-semibold text-dark-slate transition hover:bg-soft-mist"
                         >
                           {t("common.edit")}
                         </button>
                         {user.id !== currentUser.id && (
                           <button
                             onClick={() => handleDelete(user.id)}
-                            className="rounded-lg bg-red-100 px-3 py-1 text-xs font-medium text-red-700 transition hover:bg-red-200"
+                            className="rounded-lg border border-muted-rose/30 bg-muted-rose/10 px-3 py-1.5 text-xs font-semibold text-muted-rose transition hover:bg-muted-rose/20"
                           >
                             {t("common.delete")}
                           </button>
@@ -301,37 +318,37 @@ export default function UserManagement() {
         {/* Users Cards - Mobile */}
         <div className="space-y-4 md:hidden">
           {users.map((user) => (
-            <div key={user.id} className="rounded-xl bg-white p-4 shadow-soft">
+            <div key={user.id} className="rounded-xl border border-light-grey bg-pure-white p-4 shadow-soft">
               <div className="mb-3 flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex items-center gap-2">
-                    <p className="truncate font-medium text-slate-900">{user.name}</p>
+                    <p className="truncate font-semibold text-dark-slate text-xs">{user.name}</p>
                     {user.id === currentUser.id && (
-                      <span className="flex-shrink-0 rounded bg-green-100 px-2 py-0.5 text-xs text-green-700">
+                      <span className="flex-shrink-0 rounded-full bg-muted-emerald/15 px-2 py-0.5 text-[10px] font-semibold text-muted-emerald">
                         {t("users.you")}
                       </span>
                     )}
                   </div>
-                  <p className="truncate text-sm text-slate-600">{user.email}</p>
+                  <p className="truncate text-xs text-soft-stone">{user.email}</p>
                 </div>
-                <span className={`flex-shrink-0 rounded-md px-2 py-1 text-xs font-medium ${getRoleBadge(user.role)}`}>
+                <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${getRoleBadge(user.role)}`}>
                   {user.role}
                 </span>
               </div>
-              <div className="mb-3 text-xs text-slate-500">
+              <div className="mb-3 text-[11px] text-muted-grey">
                 {t("users.joined")}: {new Date(user.createdAt).toLocaleDateString()}
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 border-t border-light-grey pt-2">
                 <button
                   onClick={() => handleEdit(user)}
-                  className="flex-1 rounded-lg bg-slate-100 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-200"
+                  className="flex-1 rounded-lg border border-light-grey bg-white py-1.5 text-xs font-semibold text-dark-slate transition hover:bg-soft-mist"
                 >
                   {t("common.edit")}
                 </button>
                 {user.id !== currentUser.id && (
                   <button
                     onClick={() => handleDelete(user.id)}
-                    className="flex-1 rounded-lg bg-red-100 py-2 text-xs font-medium text-red-700 transition hover:bg-red-200"
+                    className="flex-1 rounded-lg border border-muted-rose/30 bg-muted-rose/10 py-1.5 text-xs font-semibold text-muted-rose transition hover:bg-muted-rose/20"
                   >
                     {t("common.delete")}
                   </button>
@@ -342,8 +359,8 @@ export default function UserManagement() {
         </div>
 
         {users.length === 0 && (
-          <div className="mt-6 rounded-xl bg-white p-12 text-center shadow-soft">
-            <p className="text-slate-500">{t("users.noUsers")}</p>
+          <div className="mt-6 rounded-xl border border-light-grey bg-pure-white p-12 text-center shadow-soft">
+            <p className="text-xs text-soft-stone">{t("users.noUsers")}</p>
           </div>
         )}
       </div>

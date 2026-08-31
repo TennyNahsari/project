@@ -25,36 +25,51 @@ export default function Dashboard() {
 
   return (
     <Layout title={t("dashboard.title")}>
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:px-8 md:pb-8">
         {/* Mobile Title */}
-        <h2 className="mb-6 text-2xl font-semibold text-slate-900 md:hidden">{t("dashboard.title")}</h2>
+        <h2 className="mb-6 text-2xl font-semibold text-dark-slate md:hidden">{t("dashboard.title")}</h2>
         
         {/* Main Stats */}
         <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="rounded-xl bg-white p-6 shadow-soft">
-            <p className="text-sm text-slate-500">{t("dashboard.activeProjects")}</p>
-            <p className="text-3xl font-bold text-slate-900">{stats.activeProjects}</p>
+          <div className="rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft transition-transform hover:-translate-y-0.5">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-soft-stone">{t("dashboard.activeProjects")}</p>
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-deep-indigo/10 text-deep-indigo">
+                📁
+              </div>
+            </div>
+            <p className="text-3xl font-bold text-dark-slate">{stats.activeProjects}</p>
           </div>
-          <div className="rounded-xl bg-white p-6 shadow-soft">
-            <p className="text-sm text-slate-500">{t("dashboard.tasksToday")}</p>
-            <p className="text-3xl font-bold text-slate-900">{stats.todayTasks}</p>
+          <div className="rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft transition-transform hover:-translate-y-0.5">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-soft-stone">{t("dashboard.tasksToday")}</p>
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-soft-coral/10 text-soft-coral">
+                📋
+              </div>
+            </div>
+            <p className="text-3xl font-bold text-dark-slate">{stats.todayTasks}</p>
           </div>
-          <div className="rounded-xl bg-white p-6 shadow-soft">
-            <p className="text-sm text-slate-500">{t("dashboard.overdueTasks")}</p>
-            <p className="text-3xl font-bold text-red-600">{stats.overdueTasks}</p>
+          <div className="rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft transition-transform hover:-translate-y-0.5">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-soft-stone">{t("dashboard.overdueTasks")}</p>
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted-rose/10 text-muted-rose">
+                ⚠️
+              </div>
+            </div>
+            <p className="text-3xl font-bold text-muted-rose">{stats.overdueTasks}</p>
           </div>
         </div>
 
         {/* Status Distribution */}
-        <div className="rounded-xl bg-white p-6 shadow-soft">
-          <h3 className="mb-4 text-lg font-semibold text-slate-900">{t("dashboard.taskStatusDistribution")}</h3>
+        <div className="rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft">
+          <h3 className="mb-4 text-base font-semibold text-dark-slate">{t("dashboard.taskStatusDistribution")}</h3>
           
           {/* Visual Bar */}
           {totalTasks > 0 && (
-            <div className="mb-6 flex h-8 w-full overflow-hidden rounded-lg">
+            <div className="mb-6 flex h-6 w-full overflow-hidden rounded-lg bg-light-grey/50 p-1">
               {statusDistribution.todo > 0 && (
                 <div
-                  className="flex items-center justify-center bg-slate-400 text-xs font-medium text-white transition-all"
+                  className="flex items-center justify-center bg-muted-grey text-[11px] font-semibold text-white rounded-sm transition-all"
                   style={{ width: `${(statusDistribution.todo / totalTasks) * 100}%` }}
                 >
                   {statusDistribution.todo > 0 && Math.round((statusDistribution.todo / totalTasks) * 100) > 8 && `${statusDistribution.todo}`}
@@ -62,7 +77,7 @@ export default function Dashboard() {
               )}
               {statusDistribution.inProgress > 0 && (
                 <div
-                  className="flex items-center justify-center bg-blue-500 text-xs font-medium text-white transition-all"
+                  className="flex items-center justify-center bg-soft-sky text-[11px] font-semibold text-white rounded-sm transition-all"
                   style={{ width: `${(statusDistribution.inProgress / totalTasks) * 100}%` }}
                 >
                   {statusDistribution.inProgress > 0 && Math.round((statusDistribution.inProgress / totalTasks) * 100) > 8 && `${statusDistribution.inProgress}`}
@@ -70,7 +85,7 @@ export default function Dashboard() {
               )}
               {statusDistribution.review > 0 && (
                 <div
-                  className="flex items-center justify-center bg-yellow-500 text-xs font-medium text-white transition-all"
+                  className="flex items-center justify-center bg-soft-amber text-[11px] font-semibold text-white rounded-sm transition-all"
                   style={{ width: `${(statusDistribution.review / totalTasks) * 100}%` }}
                 >
                   {statusDistribution.review > 0 && Math.round((statusDistribution.review / totalTasks) * 100) > 8 && `${statusDistribution.review}`}
@@ -78,7 +93,7 @@ export default function Dashboard() {
               )}
               {statusDistribution.done > 0 && (
                 <div
-                  className="flex items-center justify-center bg-green-500 text-xs font-medium text-white transition-all"
+                  className="flex items-center justify-center bg-muted-emerald text-[11px] font-semibold text-white rounded-sm transition-all"
                   style={{ width: `${(statusDistribution.done / totalTasks) * 100}%` }}
                 >
                   {statusDistribution.done > 0 && Math.round((statusDistribution.done / totalTasks) * 100) > 8 && `${statusDistribution.done}`}
@@ -88,61 +103,61 @@ export default function Dashboard() {
           )}
 
           {/* Legend */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-            <div className="flex items-center gap-2">
-              <div className="h-4 w-4 flex-shrink-0 rounded bg-slate-400"></div>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="flex items-center gap-3 p-2 rounded-lg bg-soft-mist border border-light-grey">
+              <div className="h-3.5 w-3.5 flex-shrink-0 rounded-full bg-muted-grey"></div>
               <div className="min-w-0">
-                <p className="truncate text-xs text-slate-500">{t("dashboard.status.todo")}</p>
-                <p className="text-base font-bold text-slate-900 sm:text-lg">{statusDistribution.todo}</p>
+                <p className="truncate text-xs text-soft-stone">{t("dashboard.status.todo")}</p>
+                <p className="text-base font-bold text-dark-slate">{statusDistribution.todo}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="h-4 w-4 flex-shrink-0 rounded bg-blue-500"></div>
+            <div className="flex items-center gap-3 p-2 rounded-lg bg-soft-mist border border-light-grey">
+              <div className="h-3.5 w-3.5 flex-shrink-0 rounded-full bg-soft-sky"></div>
               <div className="min-w-0">
-                <p className="truncate text-xs text-slate-500">{t("dashboard.status.inProgress")}</p>
-                <p className="text-base font-bold text-slate-900 sm:text-lg">{statusDistribution.inProgress}</p>
+                <p className="truncate text-xs text-soft-stone">{t("dashboard.status.inProgress")}</p>
+                <p className="text-base font-bold text-dark-slate">{statusDistribution.inProgress}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="h-4 w-4 flex-shrink-0 rounded bg-yellow-500"></div>
+            <div className="flex items-center gap-3 p-2 rounded-lg bg-soft-mist border border-light-grey">
+              <div className="h-3.5 w-3.5 flex-shrink-0 rounded-full bg-soft-amber"></div>
               <div className="min-w-0">
-                <p className="truncate text-xs text-slate-500">{t("dashboard.status.review")}</p>
-                <p className="text-base font-bold text-slate-900 sm:text-lg">{statusDistribution.review}</p>
+                <p className="truncate text-xs text-soft-stone">{t("dashboard.status.review")}</p>
+                <p className="text-base font-bold text-dark-slate">{statusDistribution.review}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="h-4 w-4 flex-shrink-0 rounded bg-green-500"></div>
+            <div className="flex items-center gap-3 p-2 rounded-lg bg-soft-mist border border-light-grey">
+              <div className="h-3.5 w-3.5 flex-shrink-0 rounded-full bg-muted-emerald"></div>
               <div className="min-w-0">
-                <p className="truncate text-xs text-slate-500">{t("dashboard.status.done")}</p>
-                <p className="text-base font-bold text-slate-900 sm:text-lg">{statusDistribution.done}</p>
+                <p className="truncate text-xs text-soft-stone">{t("dashboard.status.done")}</p>
+                <p className="text-base font-bold text-dark-slate">{statusDistribution.done}</p>
               </div>
             </div>
           </div>
 
           {totalTasks > 0 && (
-            <div className="mt-4 border-t border-slate-100 pt-4 text-sm text-slate-600">
-              {t("dashboard.totalTasks")}: <span className="font-semibold text-slate-900">{totalTasks}</span>
+            <div className="mt-4 border-t border-light-grey pt-4 text-xs text-soft-stone">
+              {t("dashboard.totalTasks")}: <span className="font-semibold text-dark-slate">{totalTasks}</span>
             </div>
           )}
         </div>
 
         {/* Project Progress Chart */}
         {projectProgress && projectProgress.length > 0 && (
-          <div className="mt-8 rounded-xl bg-white p-6 shadow-soft">
-            <h3 className="mb-4 text-lg font-semibold text-slate-900">{t("dashboard.projectProgress")}</h3>
+          <div className="mt-8 rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft">
+            <h3 className="mb-4 text-base font-semibold text-dark-slate">{t("dashboard.projectProgress")}</h3>
             <div className="space-y-4">
               {projectProgress.map((project) => (
                 <div key={project.id}>
                   <div className="mb-2 flex items-center justify-between gap-2">
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium text-slate-900">{project.name}</p>
-                      <p className="text-xs text-slate-500">{project.taskCount} {t("dashboard.tasks")}</p>
+                      <p className="truncate font-medium text-dark-slate text-sm">{project.name}</p>
+                      <p className="text-xs text-soft-stone">{project.taskCount} {t("dashboard.tasks")}</p>
                     </div>
-                    <span className="flex-shrink-0 text-sm font-semibold text-slate-700">{project.progress}%</span>
+                    <span className="flex-shrink-0 text-xs font-semibold text-dark-slate">{project.progress}%</span>
                   </div>
-                  <div className="h-3 w-full overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-light-grey">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500"
+                      className="h-full rounded-full bg-soft-coral transition-all duration-500"
                       style={{ width: `${project.progress}%` }}
                     />
                   </div>

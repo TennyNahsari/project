@@ -56,24 +56,26 @@ export default function Activities() {
 
   return (
     <Layout title={t("activities.title")}>
-      <div className="p-4 md:p-8">
-        <h2 className="mb-6 text-2xl font-semibold text-slate-900 md:hidden">{t("activities.title")}</h2>
+      <div className="p-4 md:px-8 md:pb-8">
+        <h2 className="mb-6 text-2xl font-semibold text-dark-slate md:hidden">{t("activities.title")}</h2>
 
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <p className="text-slate-500">{t("activities.loadingActivities")}</p>
+            <p className="text-xs font-semibold text-soft-stone">{t("activities.loadingActivities")}</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {activities.map((activity) => (
-              <div key={activity.id} className="rounded-xl bg-white p-4 shadow-soft sm:p-6">
-                <div className="flex items-start gap-3 sm:gap-4">
-                  <div className="flex-shrink-0 text-xl sm:text-2xl">{getActivityIcon(activity.type)}</div>
+              <div key={activity.id} className="rounded-xl border border-light-grey bg-pure-white p-4 shadow-soft transition-transform hover:-translate-y-0.5 sm:p-5">
+                <div className="flex items-start gap-3.5">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-deep-indigo/10 text-lg">
+                    {getActivityIcon(activity.type)}
+                  </div>
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-slate-900">{activity.message}</p>
-                    <p className="mt-1 text-sm text-slate-600">{activity.detail}</p>
-                    <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
-                      <span className="truncate">👤 {activity.user}</span>
+                    <p className="font-semibold text-dark-slate text-sm">{activity.message}</p>
+                    <p className="mt-0.5 text-xs text-soft-stone leading-relaxed">{activity.detail}</p>
+                    <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-grey">
+                      <span className="truncate font-medium text-dark-slate">👤 {activity.user}</span>
                       <span className="truncate">📁 {activity.project}</span>
                       <span className="flex-shrink-0">🕒 {getRelativeTime(activity.timestamp)}</span>
                     </div>
@@ -83,8 +85,8 @@ export default function Activities() {
             ))}
 
             {activities.length === 0 && !loading && (
-              <div className="rounded-xl bg-white p-12 text-center shadow-soft">
-                <p className="text-slate-500">{t("activities.noActivities")}</p>
+              <div className="rounded-xl border border-light-grey bg-pure-white p-12 text-center shadow-soft">
+                <p className="text-xs text-soft-stone">{t("activities.noActivities")}</p>
               </div>
             )}
           </div>
@@ -92,21 +94,21 @@ export default function Activities() {
 
         {/* Pagination */}
         {!loading && pagination.totalPages > 1 && (
-          <div className="mt-6 flex items-center justify-center gap-2">
+          <div className="mt-8 flex items-center justify-center gap-2">
             <button
               onClick={() => setPagination({ ...pagination, page: pagination.page - 1 })}
               disabled={pagination.page === 1}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg border border-light-grey bg-white px-4 py-2 text-xs font-semibold text-dark-slate transition hover:bg-soft-mist disabled:cursor-not-allowed disabled:opacity-50"
             >
               {t("common.previous")}
             </button>
-            <span className="px-4 py-2 text-sm text-slate-600">
+            <span className="px-4 py-2 text-xs text-soft-stone font-medium">
               {t("common.page")} {pagination.page} {t("common.of")} {pagination.totalPages}
             </span>
             <button
               onClick={() => setPagination({ ...pagination, page: pagination.page + 1 })}
               disabled={pagination.page === pagination.totalPages}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg border border-light-grey bg-white px-4 py-2 text-xs font-semibold text-dark-slate transition hover:bg-soft-mist disabled:cursor-not-allowed disabled:opacity-50"
             >
               {t("common.next")}
             </button>

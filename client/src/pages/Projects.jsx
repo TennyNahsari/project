@@ -148,13 +148,13 @@ export default function Projects() {
 
   return (
     <Layout title={t("projects.title")}>
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:px-8 md:pb-8">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-2xl font-semibold text-slate-900 md:hidden">{t("projects.title")}</h2>
+          <h2 className="text-2xl font-semibold text-dark-slate md:hidden">{t("projects.title")}</h2>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={handleExportExcel}
-              className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-green-600 bg-green-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-green-700 sm:flex-initial sm:px-4"
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-muted-emerald px-3 py-2 text-xs font-semibold text-white transition-all hover:bg-opacity-90 active:scale-[0.98] sm:flex-initial sm:px-4"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -174,7 +174,7 @@ export default function Projects() {
                   endDate: ""
                 });
               }}
-              className="flex-1 rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-700 sm:flex-initial sm:px-4"
+              className="flex-1 btn-coral text-xs py-2 px-3 sm:flex-initial sm:px-4"
             >
               <span className="hidden xs:inline">+ {t("projects.newProject")}</span>
               <span className="xs:hidden">+ {t("common.create")}</span>
@@ -183,56 +183,69 @@ export default function Projects() {
         </div>
 
         {showForm && (
-          <div className="mb-6 rounded-xl bg-white p-6 shadow-soft">
-            <h3 className="mb-4 text-lg font-semibold text-slate-900">
+          <div className="mb-6 rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft">
+            <h3 className="mb-4 text-base font-semibold text-dark-slate">
               {editingId ? t("projects.editProject") : t("projects.createProject")}
             </h3>
             <form onSubmit={handleSave} className="flex flex-col gap-4">
-              <input
-                type="text"
-                placeholder={t("projects.projectName")}
-                className="rounded-lg border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-              />
-              <textarea
-                placeholder={t("projects.description")}
-                className="rounded-lg border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                rows="3"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              />
-              <select
-                className="rounded-lg border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              >
-                <option value="Planning">{t("projects.statuses.planning")}</option>
-                <option value="Ongoing">{t("projects.statuses.ongoing")}</option>
-                <option value="Completed">{t("projects.statuses.completed")}</option>
-                <option value="Archived">{t("projects.statuses.archived")}</option>
-              </select>
-              <div className="flex flex-col gap-4 sm:flex-row">
+              <div>
+                <label className="mb-1 block text-xs font-medium text-soft-stone">{t("projects.projectName")}</label>
                 <input
-                  type="date"
-                  placeholder={t("projects.startDate")}
-                  className="flex-1 rounded-lg border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                  value={formData.startDate}
-                  onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                />
-                <input
-                  type="date"
-                  placeholder={t("projects.endDate")}
-                  className="flex-1 rounded-lg border border-slate-200 p-3 text-sm focus:border-blue-500 focus:outline-none"
-                  value={formData.endDate}
-                  onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                  type="text"
+                  placeholder={t("projects.projectName")}
+                  className="input-field"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
                 />
               </div>
-              <div className="flex gap-2">
+              <div>
+                <label className="mb-1 block text-xs font-medium text-soft-stone">{t("projects.description")}</label>
+                <textarea
+                  placeholder={t("projects.description")}
+                  className="input-field"
+                  rows="3"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-soft-stone">Status</label>
+                <select
+                  className="input-field"
+                  value={formData.status}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                >
+                  <option value="Planning">{t("projects.statuses.planning")}</option>
+                  <option value="Ongoing">{t("projects.statuses.ongoing")}</option>
+                  <option value="Completed">{t("projects.statuses.completed")}</option>
+                  <option value="Archived">{t("projects.statuses.archived")}</option>
+                </select>
+              </div>
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <div className="flex-1">
+                  <label className="mb-1 block text-xs font-medium text-soft-stone">{t("projects.startDate")}</label>
+                  <input
+                    type="date"
+                    className="input-field"
+                    value={formData.startDate}
+                    onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="mb-1 block text-xs font-medium text-soft-stone">{t("projects.endDate")}</label>
+                  <input
+                    type="date"
+                    className="input-field"
+                    value={formData.endDate}
+                    onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2 mt-2">
                 <button
                   type="submit"
-                  className="flex-1 rounded-lg bg-slate-900 py-3 text-sm font-medium text-white transition hover:bg-slate-700"
+                  className="flex-1 btn-primary text-xs py-2.5"
                 >
                   {editingId ? t("common.save") : t("common.create")}
                 </button>
@@ -242,7 +255,7 @@ export default function Projects() {
                     setShowForm(false);
                     setEditingId(null);
                   }}
-                  className="flex-1 rounded-lg border border-slate-200 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                  className="flex-1 btn-secondary text-xs py-2.5"
                 >
                   {t("common.cancel")}
                 </button>
@@ -253,104 +266,109 @@ export default function Projects() {
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((p) => (
-            <div key={p.id} className="flex flex-col rounded-xl bg-white p-4 shadow-soft sm:p-6">
+            <div key={p.id} className="flex flex-col rounded-xl border border-light-grey bg-pure-white p-5 shadow-soft transition-transform hover:-translate-y-0.5">
               <div className="mb-2 flex items-start justify-between gap-2">
-                <h3 className="min-w-0 flex-1 truncate text-base font-semibold text-slate-900 sm:text-lg">{p.name}</h3>
-                <span className="flex-shrink-0 rounded-md bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
+                <h3 className="min-w-0 flex-1 truncate text-base font-semibold text-dark-slate">{p.name}</h3>
+                <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
+                  p.status === 'Completed' ? 'bg-muted-emerald/15 text-muted-emerald' :
+                  p.status === 'Ongoing' ? 'bg-soft-sky/15 text-soft-sky' :
+                  p.status === 'Archived' ? 'bg-muted-grey/20 text-soft-stone' :
+                  'bg-soft-amber/15 text-soft-amber'
+                }`}>
                   {p.status}
                 </span>
               </div>
-              {p.description && <p className="mb-4 line-clamp-2 text-sm text-slate-600">{p.description}</p>}
+              {p.description && <p className="mb-4 line-clamp-2 text-xs text-soft-stone leading-relaxed">{p.description}</p>}
               
               {/* Progress Summary */}
               {p.stats && p.stats.totalTasks > 0 && (
-                <div className="mb-4 rounded-lg bg-slate-50 p-3">
-                  <div className="mb-2 flex items-center justify-between text-xs font-medium text-slate-700">
+                <div className="mb-4 rounded-lg bg-soft-mist border border-light-grey p-3">
+                  <div className="mb-1.5 flex items-center justify-between text-xs font-medium text-dark-slate">
                     <span>{t("projects.progress")}</span>
-                    <span>{p.stats.avgProgress}%</span>
+                    <span className="font-semibold text-soft-coral">{p.stats.avgProgress}%</span>
                   </div>
-                  <div className="mb-3 h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                  <div className="mb-3 h-1.5 w-full overflow-hidden rounded-full bg-light-grey">
                     <div
-                      className="h-full rounded-full bg-blue-500 transition-all"
+                      className="h-full rounded-full bg-soft-coral transition-all duration-300"
                       style={{ width: `${p.stats.avgProgress}%` }}
                     />
                   </div>
                   
                   {/* Status Distribution */}
-                  <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-xs">
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-[11px]">
                     <div className="flex items-center justify-between">
-                      <span className="truncate text-slate-600">{t("dashboard.status.todo")}:</span>
-                      <span className="ml-1 font-medium text-slate-700">{p.stats.todoTasks}</span>
+                      <span className="truncate text-soft-stone">{t("dashboard.status.todo")}:</span>
+                      <span className="ml-1 font-semibold text-dark-slate">{p.stats.todoTasks}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="truncate text-slate-600">{t("dashboard.status.inProgress")}:</span>
-                      <span className="ml-1 font-medium text-blue-700">{p.stats.inProgressTasks}</span>
+                      <span className="truncate text-soft-stone">{t("dashboard.status.inProgress")}:</span>
+                      <span className="ml-1 font-semibold text-soft-sky">{p.stats.inProgressTasks}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="truncate text-slate-600">{t("dashboard.status.review")}:</span>
-                      <span className="ml-1 font-medium text-yellow-700">{p.stats.reviewTasks}</span>
+                      <span className="truncate text-soft-stone">{t("dashboard.status.review")}:</span>
+                      <span className="ml-1 font-semibold text-soft-amber">{p.stats.reviewTasks}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="truncate text-slate-600">{t("dashboard.status.done")}:</span>
-                      <span className="ml-1 font-medium text-green-700">{p.stats.completedTasks}</span>
+                      <span className="truncate text-soft-stone">{t("dashboard.status.done")}:</span>
+                      <span className="ml-1 font-semibold text-muted-emerald">{p.stats.completedTasks}</span>
                     </div>
                   </div>
-                  <div className="mt-2 border-t border-slate-200 pt-2 text-xs font-medium text-slate-700">
-                    {t("projects.totalTasks")}: {p.stats.totalTasks}
+                  <div className="mt-2 border-t border-light-grey pt-2 text-[11px] font-medium text-soft-stone">
+                    {t("projects.totalTasks")}: <span className="font-semibold text-dark-slate">{p.stats.totalTasks}</span>
                   </div>
                 </div>
               )}
               
-              <div className="mb-4 text-xs text-slate-500">
+              <div className="mb-4 text-[11px] text-muted-grey space-y-0.5">
                 {p.startDate && <div className="truncate">{t("projects.start")}: {new Date(p.startDate).toLocaleDateString()}</div>}
                 {p.endDate && <div className="truncate">{t("projects.end")}: {new Date(p.endDate).toLocaleDateString()}</div>}
               </div>
-              <div className="mt-auto flex flex-col gap-2 sm:flex-row">
+              <div className="mt-auto flex flex-col gap-2 sm:flex-row pt-2 border-t border-light-grey">
                 <button
                   onClick={() => handleEdit(p)}
-                  className="flex-1 rounded-lg bg-slate-100 py-2 text-xs font-medium text-slate-700 transition hover:bg-slate-200"
+                  className="flex-1 rounded-lg border border-light-grey bg-white py-1.5 text-xs font-semibold text-dark-slate transition hover:bg-soft-mist"
                 >
                   {t("common.edit")}
                 </button>
                 <button
                   onClick={() => handleArchive(p.id)}
-                  className="flex-1 rounded-lg bg-yellow-100 py-2 text-xs font-medium text-yellow-700 transition hover:bg-yellow-200"
+                  className="flex-1 rounded-lg border border-soft-amber/30 bg-soft-amber/10 py-1.5 text-xs font-semibold text-soft-amber transition hover:bg-soft-amber/20"
                 >
                   {t("projects.archive")}
                 </button>
                 <button
                   onClick={() => handleDelete(p.id)}
-                  className="flex-1 rounded-lg bg-red-100 py-2 text-xs font-medium text-red-700 transition hover:bg-red-200"
+                  className="flex-1 rounded-lg border border-muted-rose/30 bg-muted-rose/10 py-1.5 text-xs font-semibold text-muted-rose transition hover:bg-muted-rose/20"
                 >
                   {t("common.delete")}
                 </button>
               </div>
+            </div>
+          ))}
+        </div>
 
         {/* Pagination */}
         {pagination.totalPages > 1 && (
-          <div className="mt-6 flex items-center justify-center gap-2">
+          <div className="mt-8 flex items-center justify-center gap-2">
             <button
               onClick={() => setPagination({ ...pagination, page: pagination.page - 1 })}
               disabled={pagination.page === 1}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg border border-light-grey bg-white px-4 py-2 text-xs font-semibold text-dark-slate transition hover:bg-soft-mist disabled:cursor-not-allowed disabled:opacity-50"
             >
               {t("common.previous")}
             </button>
-            <span className="px-4 py-2 text-sm text-slate-600">
+            <span className="px-4 py-2 text-xs text-soft-stone font-medium">
               {t("common.page")} {pagination.page} {t("common.of")} {pagination.totalPages}
             </span>
             <button
               onClick={() => setPagination({ ...pagination, page: pagination.page + 1 })}
               disabled={pagination.page === pagination.totalPages}
-              className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg border border-light-grey bg-white px-4 py-2 text-xs font-semibold text-dark-slate transition hover:bg-soft-mist disabled:cursor-not-allowed disabled:opacity-50"
             >
               {t("common.next")}
             </button>
           </div>
         )}
-            </div>
-          ))}
-        </div>
       </div>
     </Layout>
   );
