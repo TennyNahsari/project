@@ -56,7 +56,7 @@ export default function Sidebar({ isOpen, onClose }) {
           )}
         </div>
         <nav className="flex flex-col gap-1.5 flex-1">
-          <NavLink to="/" className={navItem} onClick={onClose}>
+          <NavLink to="/dashboard" className={navItem} onClick={onClose}>
             <span>📊</span> {t("sidebar.dashboard")}
           </NavLink>
           <NavLink to="/projects" className={navItem} onClick={onClose}>
@@ -73,6 +73,11 @@ export default function Sidebar({ isOpen, onClose }) {
               <span>👥</span> {t("sidebar.userManagement")}
             </NavLink>
           )}
+          <div className="pt-4 border-t border-white/10 mt-auto">
+            <NavLink to="/" className={navItem} onClick={onClose}>
+              <span>🌐</span> {t("sidebar.landingPage")}
+            </NavLink>
+          </div>
         </nav>
       </aside>
     </>

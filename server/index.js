@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 import authRoutes from "./routes/auth.js";
 import projectRoutes from "./routes/projects.js";
 import dashboardRoutes from "./routes/dashboard.js";
@@ -8,6 +9,10 @@ import taskRoutes from "./routes/tasks.js";
 import userRoutes from "./routes/users.js";
 import commentRoutes from "./routes/comments.js";
 import activityRoutes from "./routes/activities.js";
+import subtaskRoutes from "./routes/subtasks.js";
+import attachmentRoutes from "./routes/attachments.js";
+import worklogRoutes from "./routes/worklogs.js";
+import notificationRoutes from "./routes/notifications.js";
 
 dotenv.config();
 
@@ -40,6 +45,9 @@ app.use(cors({
 
 app.use(express.json());
 
+// Serve static uploads
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/dashboard", dashboardRoutes);
@@ -47,6 +55,10 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/activities", activityRoutes);
+app.use("/api/subtasks", subtaskRoutes);
+app.use("/api/attachments", attachmentRoutes);
+app.use("/api/worklogs", worklogRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "PM API running" });

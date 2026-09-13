@@ -24,7 +24,8 @@
     "projects": "Proyek",
     "tasks": "Tugas",
     "activities": "Log Aktivitas",
-    "userManagement": "Manajemen Pengguna"
+    "userManagement": "Manajemen Pengguna",
+    "landingPage": "Landing Page"
   },
   "dashboard": {
     "title": "Dasbor",
@@ -145,5 +146,82 @@
     "minutesAgo": "m lalu",
     "hoursAgo": "j lalu",
     "daysAgo": "h lalu"
+  },
+  "notifications": {
+    "title": "Notifikasi",
+    "noNotifications": "Belum ada notifikasi",
+    "markAllRead": "Tandai semua dibaca",
+    "unread": "belum dibaca"
+  },
+  "subtasks": {
+    "title": "Subtugas / Checklist",
+    "placeholder": "Tambah item subtugas...",
+    "add": "Tambah Item",
+    "completed": "selesai"
+  },
+  "attachments": {
+    "title": "Lampiran & Berkas",
+    "upload": "Unggah Berkas",
+    "noFiles": "Belum ada berkas terlampir",
+    "dropHere": "Tarik berkas ke sini atau klik untuk mengunggah"
+  },
+  "worklogs": {
+    "title": "Pelacakan Waktu & Log Kerja",
+    "timer": "Timer Kerja",
+    "startTimer": "Mulai Timer",
+    "stopTimer": "Hentikan & Simpan",
+    "manualLog": "Catat Jam Manual",
+    "hours": "Jam",
+    "description": "Catatan / Keterangan",
+    "log": "Simpan Log",
+    "totalSpent": "Total Durasi Pengerjaan",
+    "estimated": "Estimasi Jam Kerja"
+  },
+  "views": {
+    "table": "Tampilan Tabel",
+    "kanban": "Kanban Board",
+    "gantt": "Gantt / Timeline",
+    "exportCsv": "Ekspor CSV",
+    "exportExcel": "Ekspor Excel"
+  },
+  "kanban": {
+    "dropHere": "Tarik & lepas task di sini",
+    "clickToEdit": "Klik kartu untuk ubah task",
+    "clickToDetail": "Klik judul untuk lihat detail",
+    "edit": "Ubah"
+  },
+  "taskDetail": {
+    "backToTasks": "Kembali ke Daftar Tugas",
+    "comments": "Komentar",
+    "postComment": "Kirim Komentar",
+    "noComments": "Belum ada komentar. Jadilah yang pertama berkomentar!",
+    "addCommentPlaceholder": "Tulis komentar... Gunakan @nama untuk sebut seseorang",
+    "notSet": "Belum diatur",
+    "noDeadline": "Tanpa tenggat waktu"
+  },
+  "landing": {
+    "badge": "🚀 Platform Manajemen Proyek & Tugas Modern",
+    "heroTitle": "Kelola Proyek & Tugas Tim dengan Mudah",
+    "heroSubtitle": "Organisasi pekerjaan dengan Kanban board drag-and-drop interaktif, pelacakan subtugas otomatis, log jam kerja, lampiran berkas, dan notifikasi real-time.",
+    "getStarted": "Mulai Sekarang",
+    "goToDashboard": "Buka Dasbor",
+    "signIn": "Masuk",
+    "featuresTitle": "Semua Fitur yang Dibutuhkan Tim Anda",
+    "featuresSubtitle": "Dirancang dengan teknologi modern untuk kecepatan, kejelasan, dan kolaborasi tim.",
+    "kanbanTitle": "Kanban Board Drag & Drop Interaktif",
+    "kanbanDesc": "Kelola alur kerja dalam kolom To Do, In Progress, Review, dan Done. Geser kartu dengan mudah atau ubah status dengan 1 kali klik.",
+    "subtasksTitle": "Subtugas & Checklist Otomatis",
+    "subtasksDesc": "Pecah tugas besar menjadi poin checklist. Persentase progres terhitung secara otomatis berdasarkan poin yang dicentang.",
+    "timeTrackingTitle": "Pelacakan Waktu & Timer Stopwatch",
+    "timeTrackingDesc": "Jalankan timer pengerjaan otomatis atau catat jam kerja manual untuk menghitung estimasi durasi dan produktivitas.",
+    "attachmentsTitle": "Lampiran Berkas & Dokumen",
+    "attachmentsDesc": "Unggah spesifikasi dokumen, PDF, dan gambar langsung ke detail task untuk akses cepat seluruh anggota tim.",
+    "notificationsTitle": "Notifikasi In-App Pintar",
+    "notificationsDesc": "Jaga koordinasi tim dan deadline dengan lonceng notifikasi di topbar lengkap dengan unread counter.",
+    "exportTitle": "Ekspor Excel & CSV Sekali Klik",
+    "exportDesc": "Hasilkan laporan statistik proyek dan tugas dalam format spreadsheet (.xlsx) untuk manajemen & pemangku kepentingan.",
+    "ctaTitle": "Siap Meningkatkan Produktivitas Tim Anda?",
+    "ctaSubtitle": "Bergabunglah dengan tim yang menyelesaikan proyek lebih cepat dengan kejelasan penuh.",
+    "footerRights": "Seluruh hak cipta dilindungi."
   }
 }

@@ -2,10 +2,15 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout.jsx";
 import { apiFetch } from "../api.js";
+import { useLanguage } from "../contexts/LanguageContext.jsx";
+import SubtaskList from "../components/SubtaskList.jsx";
+import AttachmentList from "../components/AttachmentList.jsx";
+import WorklogList from "../components/WorklogList.jsx";
 
 export default function TaskDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [task, setTask] = useState(null);
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState([]);
@@ -80,7 +85,6 @@ export default function TaskDetail() {
     const value = e.target.value;
     setCommentText(value);
 
-    // Detect @ mention
     const lastAtIndex = value.lastIndexOf("@");
     if (lastAtIndex !== -1) {
       const textAfterAt = value.slice(lastAtIndex + 1);
@@ -135,7 +139,6 @@ export default function TaskDetail() {
   };
 
   const renderCommentWithMentions = (text) => {
-    // Highlight @mentions
     const parts = text.split(/(@\w+)/g);
     return parts.map((part, i) => {
       if (part.startsWith("@")) {
@@ -153,7 +156,7 @@ export default function TaskDetail() {
     return (
       <Layout>
         <div className="flex h-screen items-center justify-center">
-          <p className="text-xs font-semibold text-soft-stone">Loading...</p>
+          <p className="text-xs font-semibold text-soft-stone">{t("common.loading")}</p>
         </div>
       </Layout>
     );
@@ -161,24 +164,25 @@ export default function TaskDetail() {
 
   return (
     <Layout>
-      <div className="p-4 md:px-8 md:pb-8">
+      <div className="p-4 md:px-8 md:pb-8 space-y-6">
         <button
           onClick={() => navigate("/tasks")}
-          className="mb-6 flex items-center gap-1.5 text-xs font-semibold text-deep-indigo hover:text-soft-coral transition"
+          className="flex items-center gap-1.5 text-xs font-semibold text-deep-indigo hover:text-soft-coral transition"
         >
-          ← Back to Tasks
+          ← {t("taskDetail.backToTasks")}
         </button>
 
-        <div className="mb-6 rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft">
+        {/* Header Task Details */}
+        <div className="rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft">
           <div className="mb-4 flex items-start justify-between">
             <div className="flex-1">
               <div className="mb-3 flex flex-wrap items-center gap-2">
                 <h2 className="text-xl font-semibold text-dark-slate sm:text-2xl">{task.title}</h2>
                 <span className={`rounded-full px-3 py-0.5 text-xs font-semibold ${getStatusColor(task.status)}`}>
-                  {task.status}
+                  {task.status === "To Do" ? t("tasks.statuses.todo") : task.status === "In Progress" ? t("tasks.statuses.inProgress") : task.status === "Review" ? t("tasks.statuses.review") : t("tasks.statuses.done")}
                 </span>
                 <span className={`rounded-full px-3 py-0.5 text-xs font-semibold ${getPriorityColor(task.priority)}`}>
-                  {task.priority}
+                  {task.priority === "High" ? t("tasks.priorities.high") : task.priority === "Medium" ? t("tasks.priorities.medium") : t("tasks.priorities.low")}
                 </span>
               </div>
               {task.description && (
@@ -189,27 +193,27 @@ export default function TaskDetail() {
 
           <div className="grid gap-4 border-t border-light-grey pt-4 sm:grid-cols-2 lg:grid-cols-5">
             <div className="rounded-lg bg-soft-mist p-3 border border-light-grey">
-              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">Project</p>
+              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">{t("tasks.project")}</p>
               <p className="font-semibold text-dark-slate text-xs mt-0.5">{task.project.name}</p>
             </div>
             <div className="rounded-lg bg-soft-mist p-3 border border-light-grey">
-              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">Assigned to</p>
-              <p className="font-semibold text-dark-slate text-xs mt-0.5">{task.assignee?.name || "Unassigned"}</p>
+              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">{t("tasks.assignee")}</p>
+              <p className="font-semibold text-dark-slate text-xs mt-0.5">{task.assignee?.name || t("tasks.unassigned")}</p>
             </div>
             <div className="rounded-lg bg-soft-mist p-3 border border-light-grey">
-              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">Start Date</p>
+              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">{t("tasks.startDate")}</p>
               <p className="font-semibold text-dark-slate text-xs mt-0.5">
-                {task.startDate ? new Date(task.startDate).toLocaleDateString() : "Not set"}
+                {task.startDate ? new Date(task.startDate).toLocaleDateString() : t("taskDetail.notSet")}
               </p>
             </div>
             <div className="rounded-lg bg-soft-mist p-3 border border-light-grey">
-              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">Due Date</p>
+              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">{t("tasks.dueDate")}</p>
               <p className="font-semibold text-dark-slate text-xs mt-0.5">
-                {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "No deadline"}
+                {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : t("taskDetail.noDeadline")}
               </p>
             </div>
             <div className="rounded-lg bg-soft-mist p-3 border border-light-grey">
-              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">Progress</p>
+              <p className="text-[11px] font-medium text-soft-stone uppercase tracking-wider">{t("tasks.progress")}</p>
               <p className="font-semibold text-soft-coral text-xs mt-0.5">{task.progress}%</p>
             </div>
           </div>
@@ -224,24 +228,42 @@ export default function TaskDetail() {
           </div>
         </div>
 
+        {/* Grid for Features C, D, E */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SubtaskList
+            taskId={task.id}
+            initialSubtasks={task.subtasks || []}
+            onProgressChange={loadTask}
+          />
+
+          <WorklogList
+            taskId={task.id}
+            estimatedHours={task.estimatedHours}
+            initialWorklogs={task.worklogs || []}
+          />
+        </div>
+
+        <AttachmentList
+          taskId={task.id}
+          initialAttachments={task.attachments || []}
+        />
+
         {/* Comments Section */}
         <div className="rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft">
           <h3 className="mb-4 text-base font-semibold text-dark-slate">
-            Comments ({comments.length})
+            {t("taskDetail.comments")} ({comments.length})
           </h3>
 
-          {/* Comment Form */}
           <form onSubmit={handleCommentSubmit} className="mb-6">
             <div className="relative">
               <textarea
                 className="input-field"
                 rows="3"
-                placeholder="Add a comment... Use @username to mention someone"
+                placeholder={t("taskDetail.addCommentPlaceholder")}
                 value={commentText}
                 onChange={handleCommentChange}
               />
               
-              {/* Mention Dropdown */}
               {showMentions && filteredUsers.length > 0 && (
                 <div className="absolute bottom-full left-0 mb-2 w-64 rounded-xl border border-light-grey bg-pure-white p-1.5 shadow-modal z-20">
                   {filteredUsers.slice(0, 5).map((user) => (
@@ -267,11 +289,10 @@ export default function TaskDetail() {
               type="submit"
               className="mt-3 btn-coral text-xs py-2 px-4"
             >
-              Post Comment
+              {t("taskDetail.postComment")}
             </button>
           </form>
 
-          {/* Comments List */}
           <div className="space-y-3">
             {comments.map((comment) => (
               <div key={comment.id} className="rounded-xl border border-light-grey bg-soft-mist/50 p-4">
@@ -291,7 +312,7 @@ export default function TaskDetail() {
                     onClick={() => handleDeleteComment(comment.id)}
                     className="text-[11px] font-semibold text-muted-rose hover:underline"
                   >
-                    Delete
+                    {t("common.delete")}
                   </button>
                 </div>
                 <p className="mt-2 text-xs text-dark-slate leading-relaxed pl-10">{renderCommentWithMentions(comment.message)}</p>
@@ -300,7 +321,7 @@ export default function TaskDetail() {
 
             {comments.length === 0 && (
               <p className="py-8 text-center text-xs text-soft-stone">
-                No comments yet. Be the first to comment!
+                {t("taskDetail.noComments")}
               </p>
             )}
           </div>

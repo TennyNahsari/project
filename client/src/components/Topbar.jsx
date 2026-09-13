@@ -1,4 +1,5 @@
 import { useLanguage } from "../contexts/LanguageContext.jsx";
+import NotificationBell from "./NotificationBell.jsx";
 
 export default function Topbar({ title, onLogout }) {
   const { language, toggleLanguage, t } = useLanguage();
@@ -10,6 +11,9 @@ export default function Topbar({ title, onLogout }) {
         <h2 className="text-2xl font-semibold text-dark-slate tracking-tight">{title}</h2>
       </div>
       <div className="flex items-center gap-3">
+        {/* Notification Bell */}
+        <NotificationBell />
+
         {/* Language Switcher */}
         <button
           onClick={toggleLanguage}

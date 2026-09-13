@@ -24,7 +24,8 @@
     "projects": "Projects",
     "tasks": "Tasks",
     "activities": "Activity Log",
-    "userManagement": "User Management"
+    "userManagement": "User Management",
+    "landingPage": "Landing Page"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -145,5 +146,82 @@
     "minutesAgo": "m ago",
     "hoursAgo": "h ago",
     "daysAgo": "d ago"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "No notifications",
+    "markAllRead": "Mark all as read",
+    "unread": "unread"
+  },
+  "subtasks": {
+    "title": "Subtasks / Checklist",
+    "placeholder": "Add subtask item...",
+    "add": "Add Item",
+    "completed": "completed"
+  },
+  "attachments": {
+    "title": "Attachments & Files",
+    "upload": "Upload File",
+    "noFiles": "No files attached",
+    "dropHere": "Drop files here or click to upload"
+  },
+  "worklogs": {
+    "title": "Time Tracking & Worklogs",
+    "timer": "Work Timer",
+    "startTimer": "Start Timer",
+    "stopTimer": "Stop & Log",
+    "manualLog": "Log Hours Manually",
+    "hours": "Hours",
+    "description": "Log description / notes",
+    "log": "Log Time",
+    "totalSpent": "Total Time Spent",
+    "estimated": "Estimated Hours"
+  },
+  "views": {
+    "table": "Table View",
+    "kanban": "Kanban Board",
+    "gantt": "Gantt / Timeline",
+    "exportCsv": "Export CSV",
+    "exportExcel": "Export Excel"
+  },
+  "kanban": {
+    "dropHere": "Drop task here",
+    "clickToEdit": "Click card to edit task",
+    "clickToDetail": "Click title to view details",
+    "edit": "Edit"
+  },
+  "taskDetail": {
+    "backToTasks": "Back to Tasks",
+    "comments": "Comments",
+    "postComment": "Post Comment",
+    "noComments": "No comments yet. Be the first to comment!",
+    "addCommentPlaceholder": "Add a comment... Use @username to mention someone",
+    "notSet": "Not set",
+    "noDeadline": "No deadline"
+  },
+  "landing": {
+    "badge": "🚀 Modern Project & Task Management Platform",
+    "heroTitle": "Manage Team Projects & Tasks Effortlessly",
+    "heroSubtitle": "Organize work with interactive Kanban drag-and-drop, automated subtask tracking, time logs, file attachments, and real-time notifications.",
+    "getStarted": "Get Started Now",
+    "goToDashboard": "Go to Dashboard",
+    "signIn": "Sign In",
+    "featuresTitle": "Everything Your Team Needs to Succeed",
+    "featuresSubtitle": "Built with modern technologies for speed, clarity, and team collaboration.",
+    "kanbanTitle": "Interactive Drag & Drop Kanban",
+    "kanbanDesc": "Organize tasks into To Do, In Progress, Review, and Done columns. Drag cards seamlessly or update status with 1 click.",
+    "subtasksTitle": "Subtasks & Automated Checklists",
+    "subtasksDesc": "Break big tasks into actionable checklist items. Progress bars calculate completion percentage automatically.",
+    "timeTrackingTitle": "Built-in Time Tracking & Worklogs",
+    "timeTrackingDesc": "Run live stopwatch timers or log work hours manually to keep track of project duration and productivity.",
+    "attachmentsTitle": "Document & File Attachments",
+    "attachmentsDesc": "Attach specs, designs, PDFs, and images directly to tasks for seamless team access.",
+    "notificationsTitle": "Smart In-App Notifications",
+    "notificationsDesc": "Never miss a deadline or assignment with topbar bell alerts and unread indicators.",
+    "exportTitle": "One-Click Excel & CSV Export",
+    "exportDesc": "Generate formatted spreadsheet reports for management and stakeholders instantly.",
+    "ctaTitle": "Ready to Transform Your Workflow?",
+    "ctaSubtitle": "Join teams who deliver projects faster with total clarity.",
+    "footerRights": "All rights reserved."
   }
 }

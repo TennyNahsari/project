@@ -8,47 +8,55 @@ datasource db {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   name          String
-  email         String    @unique
+  email         String         @unique
   password      String
-  role          String    @default("Member")
-  createdAt     DateTime  @default(now())
+  role          String         @default("Member")
+  createdAt     DateTime       @default(now())
   comments      Comment[]
-  ownedProjects Project[] @relation("ProjectOwner")
-  tasks         Task[]    @relation("TaskAssignee")
+  ownedProjects Project[]      @relation("ProjectOwner")
+  tasks         Task[]         @relation("TaskAssignee")
+  attachments   Attachment[]
+  worklogs      Worklog[]
+  notifications Notification[]
 }
 
 model Project {
-  id          Int       @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   name        String
   description String?
-  status      String    @default("Planning")
+  status      String       @default("Planning")
   startDate   DateTime?
   endDate     DateTime?
   ownerId     Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  owner       User      @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  owner       User         @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   tasks       Task[]
+  attachments Attachment[]
 }
 
 model Task {
-  id          Int       @id @default(autoincrement())
-  projectId   Int
-  title       String
-  description String?
-  status      String    @default("To Do")
-  priority    String    @default("Medium")
-  assigneeId  Int?
-  dueDate     DateTime?
-  progress    Int       @default(0)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  startDate   DateTime?
-  comments    Comment[]
-  assignee    User?     @relation("TaskAssignee", fields: [assigneeId], references: [id])
-  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id             Int          @id @default(autoincrement())
+  projectId      Int
+  title          String
+  description    String?
+  status         String       @default("To Do")
+  priority       String       @default("Medium")
+  assigneeId     Int?
+  dueDate        DateTime?
+  progress       Int          @default(0)
+  estimatedHours Float?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  startDate      DateTime?
+  comments       Comment[]
+  subtasks       Subtask[]
+  attachments    Attachment[]
+  worklogs       Worklog[]
+  assignee       User?        @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  project        Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
@@ -58,5 +66,52 @@ model Comment {
   message   String
   createdAt DateTime @default(now())
   task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Subtask {
+  id          Int      @id @default(autoincrement())
+  taskId      Int
+  title       String
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+}
+
+model Attachment {
+  id        Int      @id @default(autoincrement())
+  taskId    Int?
+  projectId Int?
+  userId    Int
+  filename  String
+  filepath  String
+  fileSize  Int
+  fileType  String
+  createdAt DateTime @default(now())
+  task      Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Worklog {
+  id          Int      @id @default(autoincrement())
+  taskId      Int
+  userId      Int
+  hours       Float
+  description String?
+  createdAt   DateTime @default(now())
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  message   String
+  type      String   @default("INFO")
+  link      String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
