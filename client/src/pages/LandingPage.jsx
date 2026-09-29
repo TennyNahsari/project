@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
+import Pagination from "../components/Pagination.jsx";
 
 export default function LandingPage() {
   const { language, toggleLanguage, t } = useLanguage();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [featurePage, setFeaturePage] = useState(1);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -309,61 +311,60 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* Feature 1 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 hover:border-rose-500/50 hover:bg-slate-900 transition-all group">
-            <div className="h-12 w-12 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-2xl font-bold mb-5 group-hover:scale-110 transition-transform">
-              📌
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">{t("landing.kanbanTitle")}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{t("landing.kanbanDesc")}</p>
-          </div>
+        {(() => {
+          const allFeatures = [
+            { icon: "📌", title: t("landing.kanbanTitle"), desc: t("landing.kanbanDesc"), border: "hover:border-rose-500/50", bg: "bg-rose-500/10 text-rose-400" },
+            { icon: "☑️", title: t("landing.subtasksTitle"), desc: t("landing.subtasksDesc"), border: "hover:border-indigo-500/50", bg: "bg-indigo-500/10 text-indigo-400" },
+            { icon: "⏱️", title: t("landing.timeTrackingTitle"), desc: t("landing.timeTrackingDesc"), border: "hover:border-emerald-500/50", bg: "bg-emerald-500/10 text-emerald-400" },
+            { icon: "📎", title: t("landing.attachmentsTitle"), desc: t("landing.attachmentsDesc"), border: "hover:border-sky-500/50", bg: "bg-sky-500/10 text-sky-400" },
+            { icon: "🔔", title: t("landing.notificationsTitle"), desc: t("landing.notificationsDesc"), border: "hover:border-amber-500/50", bg: "bg-amber-500/10 text-amber-400" },
+            { icon: "📊", title: t("landing.exportTitle"), desc: t("landing.exportDesc"), border: "hover:border-purple-500/50", bg: "bg-purple-500/10 text-purple-400" },
+            { icon: "🌐", title: "Multilingual Support", desc: "Full English and Indonesian localization out of the box.", border: "hover:border-teal-500/50", bg: "bg-teal-500/10 text-teal-400" },
+            { icon: "📱", title: "Responsive Layout", desc: "Flawless performance on both desktop web and mobile devices.", border: "hover:border-pink-500/50", bg: "bg-pink-500/10 text-pink-400" },
+            { icon: "🔒", title: "Role-based Security", desc: "Granular access control for PMs, Admins, and Team Members.", border: "hover:border-cyan-500/50", bg: "bg-cyan-500/10 text-cyan-400" },
+            { icon: "⚡", title: "High-Performance API", desc: "Lightning fast response times with light database overhead.", border: "hover:border-yellow-500/50", bg: "bg-yellow-500/10 text-yellow-400" },
+            { icon: "📈", title: "Analytics Dashboard", desc: "Track progress and status distribution at a glance.", border: "hover:border-violet-500/50", bg: "bg-violet-500/10 text-violet-400" },
+            { icon: "📅", title: "Gantt Timeline View", desc: "Visualize task schedules and milestone deadlines.", border: "hover:border-blue-500/50", bg: "bg-blue-500/10 text-blue-400" },
+            { icon: "💬", title: "Activity Stream", desc: "Real-time updates and team discussion history.", border: "hover:border-red-500/50", bg: "bg-red-500/10 text-red-400" },
+            { icon: "🎨", title: "Modern Design", desc: "Premium dark mode aesthetics with smooth micro-interactions.", border: "hover:border-lime-500/50", bg: "bg-lime-500/10 text-lime-400" },
+            { icon: "🚀", title: "Instant Setup", desc: "Get up and running in minutes with no complex configuration.", border: "hover:border-orange-500/50", bg: "bg-orange-500/10 text-orange-400" },
+            { icon: "💼", title: "Project Management", desc: "Organize projects, assign members, and track completion.", border: "hover:border-fuchsia-500/50", bg: "bg-fuchsia-500/10 text-fuchsia-400" }
+          ];
 
-          {/* Feature 2 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 hover:border-indigo-500/50 hover:bg-slate-900 transition-all group">
-            <div className="h-12 w-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-2xl font-bold mb-5 group-hover:scale-110 transition-transform">
-              ☑️
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">{t("landing.subtasksTitle")}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{t("landing.subtasksDesc")}</p>
-          </div>
+          const FEATURES_PER_PAGE = 2;
+          const totalFeaturePages = Math.ceil(allFeatures.length / FEATURES_PER_PAGE);
+          const paginatedFeatures = allFeatures.slice(
+            (featurePage - 1) * FEATURES_PER_PAGE,
+            featurePage * FEATURES_PER_PAGE
+          );
 
-          {/* Feature 3 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 hover:border-emerald-500/50 hover:bg-slate-900 transition-all group">
-            <div className="h-12 w-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl font-bold mb-5 group-hover:scale-110 transition-transform">
-              ⏱️
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">{t("landing.timeTrackingTitle")}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{t("landing.timeTrackingDesc")}</p>
-          </div>
+          return (
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-h-[220px]">
+                {paginatedFeatures.map((feat, idx) => (
+                  <div key={idx} className={`rounded-2xl border border-slate-800 bg-slate-900/60 p-6 ${feat.border} hover:bg-slate-900 transition-all group`}>
+                    <div className={`h-12 w-12 rounded-xl ${feat.bg} flex items-center justify-center text-2xl font-bold mb-5 group-hover:scale-110 transition-transform`}>
+                      {feat.icon}
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">{feat.title}</h3>
+                    <p className="text-xs text-slate-400 leading-relaxed">{feat.desc}</p>
+                  </div>
+                ))}
+              </div>
 
-          {/* Feature 4 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 hover:border-sky-500/50 hover:bg-slate-900 transition-all group">
-            <div className="h-12 w-12 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center text-2xl font-bold mb-5 group-hover:scale-110 transition-transform">
-              📎
+              {totalFeaturePages > 1 && (
+                <div className="mt-12">
+                  <Pagination
+                    currentPage={featurePage}
+                    totalPages={totalFeaturePages}
+                    onPageChange={setFeaturePage}
+                    isDark={true}
+                  />
+                </div>
+              )}
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">{t("landing.attachmentsTitle")}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{t("landing.attachmentsDesc")}</p>
-          </div>
-
-          {/* Feature 5 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 hover:border-amber-500/50 hover:bg-slate-900 transition-all group">
-            <div className="h-12 w-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl font-bold mb-5 group-hover:scale-110 transition-transform">
-              🔔
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">{t("landing.notificationsTitle")}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{t("landing.notificationsDesc")}</p>
-          </div>
-
-          {/* Feature 6 */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 hover:border-purple-500/50 hover:bg-slate-900 transition-all group">
-            <div className="h-12 w-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-2xl font-bold mb-5 group-hover:scale-110 transition-transform">
-              📊
-            </div>
-            <h3 className="text-lg font-bold text-white mb-2">{t("landing.exportTitle")}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{t("landing.exportDesc")}</p>
-          </div>
-        </div>
+          );
+        })()}
       </section>
 
       {/* Bottom CTA Banner */}

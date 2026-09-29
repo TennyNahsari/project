@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout.jsx";
 import { apiFetch } from "../api.js";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
+import Pagination from "../components/Pagination.jsx";
 
 export default function Activities() {
   const { t } = useLanguage();
@@ -94,24 +95,12 @@ export default function Activities() {
 
         {/* Pagination */}
         {!loading && pagination.totalPages > 1 && (
-          <div className="mt-8 flex items-center justify-center gap-2">
-            <button
-              onClick={() => setPagination({ ...pagination, page: pagination.page - 1 })}
-              disabled={pagination.page === 1}
-              className="rounded-lg border border-light-grey bg-white px-4 py-2 text-xs font-semibold text-dark-slate transition hover:bg-soft-mist disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {t("common.previous")}
-            </button>
-            <span className="px-4 py-2 text-xs text-soft-stone font-medium">
-              {t("common.page")} {pagination.page} {t("common.of")} {pagination.totalPages}
-            </span>
-            <button
-              onClick={() => setPagination({ ...pagination, page: pagination.page + 1 })}
-              disabled={pagination.page === pagination.totalPages}
-              className="rounded-lg border border-light-grey bg-white px-4 py-2 text-xs font-semibold text-dark-slate transition hover:bg-soft-mist disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {t("common.next")}
-            </button>
+          <div className="mt-8">
+            <Pagination
+              currentPage={pagination.page}
+              totalPages={pagination.totalPages}
+              onPageChange={(newPage) => setPagination({ ...pagination, page: newPage })}
+            />
           </div>
         )}
       </div>

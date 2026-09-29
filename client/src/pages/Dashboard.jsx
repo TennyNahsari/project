@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Layout from "../components/Layout.jsx";
 import { apiFetch } from "../api.js";
 import { useLanguage } from "../contexts/LanguageContext.jsx";
+import Pagination from "../components/Pagination.jsx";
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -12,6 +13,8 @@ export default function Dashboard() {
     statusDistribution: { todo: 0, inProgress: 0, review: 0, done: 0 },
     projectProgress: []
   });
+  const [projectPage, setProjectPage] = useState(1);
+  const PROJECTS_PER_PAGE = 3;
 
   useEffect(() => {
     apiFetch("/api/dashboard")
@@ -142,30 +145,54 @@ export default function Dashboard() {
         </div>
 
         {/* Project Progress Chart */}
-        {projectProgress && projectProgress.length > 0 && (
-          <div className="mt-8 rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft">
-            <h3 className="mb-4 text-base font-semibold text-dark-slate">{t("dashboard.projectProgress")}</h3>
-            <div className="space-y-4">
-              {projectProgress.map((project) => (
-                <div key={project.id}>
-                  <div className="mb-2 flex items-center justify-between gap-2">
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium text-dark-slate text-sm">{project.name}</p>
-                      <p className="text-xs text-soft-stone">{project.taskCount} {t("dashboard.tasks")}</p>
+        {projectProgress && projectProgress.length > 0 && (() => {
+          const totalPages = Math.ceil(projectProgress.length / PROJECTS_PER_PAGE);
+          const paginatedProjects = projectProgress.slice(
+            (projectPage - 1) * PROJECTS_PER_PAGE,
+            projectPage * PROJECTS_PER_PAGE
+          );
+          return (
+            <div className="mt-8 rounded-xl border border-light-grey bg-pure-white p-6 shadow-soft">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-base font-semibold text-dark-slate">{t("dashboard.projectProgress")}</h3>
+                {totalPages > 1 && (
+                  <span className="text-xs text-soft-stone font-medium">
+                    {projectProgress.length} Projects
+                  </span>
+                )}
+              </div>
+              <div className="space-y-4">
+                {paginatedProjects.map((project) => (
+                  <div key={project.id}>
+                    <div className="mb-2 flex items-center justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-medium text-dark-slate text-sm">{project.name}</p>
+                        <p className="text-xs text-soft-stone">{project.taskCount} {t("dashboard.tasks")}</p>
+                      </div>
+                      <span className="flex-shrink-0 text-xs font-semibold text-dark-slate">{project.progress}%</span>
                     </div>
-                    <span className="flex-shrink-0 text-xs font-semibold text-dark-slate">{project.progress}%</span>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-light-grey">
+                      <div
+                        className="h-full rounded-full bg-soft-coral transition-all duration-500"
+                        style={{ width: `${project.progress}%` }}
+                      />
+                    </div>
                   </div>
-                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-light-grey">
-                    <div
-                      className="h-full rounded-full bg-soft-coral transition-all duration-500"
-                      style={{ width: `${project.progress}%` }}
-                    />
-                  </div>
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="mt-6 border-t border-light-grey pt-4">
+                  <Pagination
+                    currentPage={projectPage}
+                    totalPages={totalPages}
+                    onPageChange={setProjectPage}
+                  />
                 </div>
-              ))}
+              )}
             </div>
-          </div>
-        )}
+          );
+        })()}
       </div>
     </Layout>
   );
