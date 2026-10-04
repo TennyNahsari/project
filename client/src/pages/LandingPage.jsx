@@ -60,14 +60,6 @@ export default function LandingPage() {
               <span className="uppercase">{language}</span>
             </button>
 
-            {!isLoggedIn && (
-              <button
-                onClick={() => navigate("/login")}
-                className="px-4 py-2 rounded-lg bg-rose-500 text-white font-semibold text-xs shadow-md hover:bg-rose-600 transition-all"
-              >
-                {t("landing.signIn")}
-              </button>
-            )}
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -100,16 +92,6 @@ export default function LandingPage() {
             <a href="#features" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium text-slate-300 hover:text-white">Features</a>
             <a href="#workflow" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium text-slate-300 hover:text-white">Workflow</a>
             <a href="#stats" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-sm font-medium text-slate-300 hover:text-white">Impact</a>
-            {!isLoggedIn && (
-              <div className="pt-2">
-                <button
-                  onClick={() => navigate("/login")}
-                  className="w-full py-2.5 rounded-lg bg-rose-500 text-white font-semibold text-xs text-center"
-                >
-                  {t("landing.signIn")}
-                </button>
-              </div>
-            )}
           </div>
         )}
       </header>
