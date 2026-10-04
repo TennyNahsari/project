@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiFetch } from "../api.js";
 
 export default function Login() {
@@ -30,14 +30,27 @@ export default function Login() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#F7F6F2] px-4 py-12">
       <div className="w-full max-w-md">
+        {/* Link ke Landing Page */}
+        <div className="mb-4">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-soft-stone hover:text-deep-indigo transition-colors"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Kembali ke Landing Page
+          </Link>
+        </div>
+
         {/* Header - App Title */}
         <div className="mb-8 text-center">
           <div className="mb-4 flex items-center justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-deep-indigo text-white shadow-soft">
+            <Link to="/" title="Kembali ke Landing Page" className="flex h-16 w-16 items-center justify-center rounded-2xl bg-deep-indigo text-white shadow-soft hover:opacity-90 transition-opacity">
               <svg className="h-8 w-8 text-soft-coral" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
               </svg>
-            </div>
+            </Link>
           </div>
           <h1 className="font-brand text-3xl font-bold italic tracking-wide text-deep-indigo">Project Management</h1>
           <p className="mt-1 text-sm text-soft-stone">Clarity & Calm Productivity Workspace</p>
@@ -142,9 +155,14 @@ export default function Login() {
         )}
 
         {/* Footer */}
-        <p className="mt-6 text-center text-xs text-muted-grey">
-          © 2026 Project Management App. Clarity & Calm Productivity.
-        </p>
+        <div className="mt-6 text-center text-xs text-muted-grey space-y-1.5">
+          <div>
+            <Link to="/" className="text-soft-stone hover:text-deep-indigo underline transition-colors">
+              Lihat Landing Page
+            </Link>
+          </div>
+          <p>© 2026 Project Management App. Clarity & Calm Productivity.</p>
+        </div>
       </div>
     </div>
   );
