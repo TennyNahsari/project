@@ -36,6 +36,9 @@ Thumbs.db
 backups/
 *.sql
 *.sql.gz
+!server/prisma/migrations/**/*.sql
+!init.sql
+!server/init.sql
 
 # PM2
 .pm2
