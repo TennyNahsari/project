@@ -15,7 +15,8 @@
     "previous": "Previous",
     "next": "Next",
     "page": "Page",
-    "of": "of"
+    "of": "of",
+    "showing": "Showing"
   },
   "sidebar": {
     "appName": "PM App",

@@ -15,7 +15,8 @@
     "previous": "Sebelumnya",
     "next": "Selanjutnya",
     "page": "Halaman",
-    "of": "dari"
+    "of": "dari",
+    "showing": "Menampilkan"
   },
   "sidebar": {
     "appName": "Aplikasi PM",

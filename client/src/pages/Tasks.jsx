@@ -5,12 +5,15 @@ import { apiFetch } from "../api.js";
 import * as XLSX from 'xlsx';
 import { useLanguage } from "../contexts/LanguageContext.jsx";
 import KanbanBoard from "../components/KanbanBoard.jsx";
+import Pagination from "../components/Pagination.jsx";
 
 export default function Tasks() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const [pagination, setPagination] = useState({ page: 1, limit: 100, total: 0, totalPages: 0 });
+  const [tablePage, setTablePage] = useState(1);
+  const tableLimit = 10;
   const [currentUser, setCurrentUser] = useState(null);
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
@@ -36,7 +39,11 @@ export default function Tasks() {
 
   useEffect(() => {
     loadTasks();
-  }, [pagination.page]);
+  }, []);
+
+  useEffect(() => {
+    setTablePage(1);
+  }, [filterStatus, filterProject]);
 
   useEffect(() => {
     loadProjects();
@@ -48,7 +55,7 @@ export default function Tasks() {
 
   const loadTasks = async () => {
     try {
-      const data = await apiFetch(`/api/tasks?page=${pagination.page}&limit=${pagination.limit}`);
+      const data = await apiFetch("/api/tasks?limit=1000");
       setTasks(data.data || data);
       if (data.pagination) {
         setPagination(data.pagination);
@@ -231,6 +238,12 @@ export default function Tasks() {
     if (filterProject !== "all" && task.projectId !== parseInt(filterProject)) return false;
     return true;
   });
+
+  const totalTablePages = Math.ceil(filteredTasks.length / tableLimit);
+  const paginatedTableTasks = filteredTasks.slice(
+    (tablePage - 1) * tableLimit,
+    tablePage * tableLimit
+  );
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -476,74 +489,111 @@ export default function Tasks() {
         )}
 
         {viewMode === "table" && (
-          <div className="grid grid-cols-1 gap-4">
-            {filteredTasks.map((task) => (
-              <div
-                key={task.id}
-                onClick={() => handleEdit(task)}
-                className="group flex flex-col rounded-xl border border-light-grey bg-pure-white p-5 shadow-soft hover:-translate-y-0.5 hover:border-soft-coral/40 cursor-pointer transition-all"
-              >
-                <div className="mb-3 flex items-start justify-between gap-2">
-                  <div className="min-w-0 flex-1">
-                    <div className="mb-2 flex flex-wrap items-center gap-2">
-                      <h3 
-                        className="cursor-pointer truncate text-base font-semibold text-dark-slate transition hover:text-soft-coral hover:underline"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/tasks/${task.id}`);
-                        }}
-                        title={t("kanban.clickToDetail")}
-                      >
-                        {task.title}
-                      </h3>
-                      <select
-                        value={task.status}
-                        onClick={(e) => e.stopPropagation()}
-                        onChange={(e) => {
-                          e.stopPropagation();
-                          handleStatusChange(task.id, e.target.value);
-                        }}
-                        className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold cursor-pointer border focus:outline-none transition-colors ${getStatusColor(task.status)}`}
-                        title="Click to change status"
-                      >
-                        <option value="To Do" className="bg-white text-dark-slate font-medium">{t("tasks.statuses.todo")}</option>
-                        <option value="In Progress" className="bg-white text-dark-slate font-medium">{t("tasks.statuses.inProgress")}</option>
-                        <option value="Review" className="bg-white text-dark-slate font-medium">{t("tasks.statuses.review")}</option>
-                        <option value="Done" className="bg-white text-dark-slate font-medium">{t("tasks.statuses.done")}</option>
-                      </select>
-                      <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${getPriorityColor(task.priority)}`}>
-                        {task.priority === "High" ? t("tasks.priorities.high") : task.priority === "Medium" ? t("tasks.priorities.medium") : t("tasks.priorities.low")}
-                      </span>
-                      <span className="text-[11px] text-soft-stone opacity-0 group-hover:opacity-100 transition-opacity ml-auto" title={t("kanban.clickToEdit")}>
-                        ✏️ {t("kanban.edit")}
-                      </span>
-                    </div>
-                    {task.description && <p className="mb-3 line-clamp-2 text-xs text-soft-stone leading-relaxed">{task.description}</p>}
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-soft-stone">
-                      <div className="truncate font-medium text-dark-slate">📁 {task.project.name}</div>
-                      {task.assignee && (
-                        <div className="flex items-center gap-1.5 truncate">
-                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-soft-coral text-[10px] font-semibold text-white">
-                            {task.assignee.name.charAt(0).toUpperCase()}
+          <div className="space-y-4">
+            {paginatedTableTasks.length > 0 ? (
+              <div className="grid grid-cols-1 gap-4">
+                {paginatedTableTasks.map((task) => (
+                  <div
+                    key={task.id}
+                    onClick={() => handleEdit(task)}
+                    className="group flex flex-col rounded-xl border border-light-grey bg-pure-white p-5 shadow-soft hover:-translate-y-0.5 hover:border-soft-coral/40 cursor-pointer transition-all"
+                  >
+                    <div className="mb-3 flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="mb-2 flex flex-wrap items-center gap-2">
+                          <h3 
+                            className="cursor-pointer truncate text-base font-semibold text-dark-slate transition hover:text-soft-coral hover:underline"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/tasks/${task.id}`);
+                            }}
+                            title={t("kanban.clickToDetail")}
+                          >
+                            {task.title}
+                          </h3>
+                          <select
+                            value={task.status}
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              handleStatusChange(task.id, e.target.value);
+                            }}
+                            className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold cursor-pointer border focus:outline-none transition-colors ${getStatusColor(task.status)}`}
+                            title="Click to change status"
+                          >
+                            <option value="To Do" className="bg-white text-dark-slate font-medium">{t("tasks.statuses.todo")}</option>
+                            <option value="In Progress" className="bg-white text-dark-slate font-medium">{t("tasks.statuses.inProgress")}</option>
+                            <option value="Review" className="bg-white text-dark-slate font-medium">{t("tasks.statuses.review")}</option>
+                            <option value="Done" className="bg-white text-dark-slate font-medium">{t("tasks.statuses.done")}</option>
+                          </select>
+                          <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${getPriorityColor(task.priority)}`}>
+                            {task.priority === "High" ? t("tasks.priorities.high") : task.priority === "Medium" ? t("tasks.priorities.medium") : t("tasks.priorities.low")}
                           </span>
-                          <span>{task.assignee.name}</span>
+                          <span className="text-[11px] text-soft-stone opacity-0 group-hover:opacity-100 transition-opacity ml-auto" title={t("kanban.clickToEdit")}>
+                            ✏️ {t("kanban.edit")}
+                          </span>
                         </div>
-                      )}
+                        {task.description && <p className="mb-3 line-clamp-2 text-xs text-soft-stone leading-relaxed">{task.description}</p>}
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-soft-stone">
+                          <div className="truncate font-medium text-dark-slate">📁 {task.project.name}</div>
+                          {task.assignee && (
+                            <div className="flex items-center gap-1.5 truncate">
+                              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-soft-coral text-[10px] font-semibold text-white">
+                                {task.assignee.name.charAt(0).toUpperCase()}
+                              </span>
+                              <span>{task.assignee.name}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
+                    {(!currentUser || currentUser.role === "PM" || currentUser.role === "Admin") && (
+                      <div className="mt-auto flex gap-2 border-t border-light-grey pt-3">
+                        <button onClick={() => handleEdit(task)} className="flex-1 rounded-lg border border-light-grey bg-white py-1.5 text-xs font-semibold text-dark-slate hover:bg-soft-mist">
+                          {t("common.edit")}
+                        </button>
+                        <button onClick={() => handleDelete(task.id)} className="flex-1 rounded-lg border border-muted-rose/30 bg-muted-rose/10 py-1.5 text-xs font-semibold text-muted-rose hover:bg-muted-rose/20">
+                          {t("common.delete")}
+                        </button>
+                      </div>
+                    )}
                   </div>
-                </div>
-                {(!currentUser || currentUser.role === "PM" || currentUser.role === "Admin") && (
-                  <div className="mt-auto flex gap-2 border-t border-light-grey pt-3">
-                    <button onClick={() => handleEdit(task)} className="flex-1 rounded-lg border border-light-grey bg-white py-1.5 text-xs font-semibold text-dark-slate hover:bg-soft-mist">
-                      {t("common.edit")}
-                    </button>
-                    <button onClick={() => handleDelete(task.id)} className="flex-1 rounded-lg border border-muted-rose/30 bg-muted-rose/10 py-1.5 text-xs font-semibold text-muted-rose hover:bg-muted-rose/20">
-                      {t("common.delete")}
-                    </button>
-                  </div>
-                )}
+                ))}
               </div>
-            ))}
+            ) : (
+              <div className="rounded-xl border border-light-grey bg-pure-white p-12 text-center shadow-soft">
+                <p className="text-xs text-soft-stone">{t("tasks.noTasks")}</p>
+              </div>
+            )}
+
+            {/* Pagination Controls */}
+            {totalTablePages > 1 && (
+              <div className="mt-8 flex flex-col items-center justify-between gap-3 sm:flex-row">
+                <p className="text-xs text-soft-stone">
+                  {t("common.showing")}{" "}
+                  <span className="font-semibold text-dark-slate">
+                    {(tablePage - 1) * tableLimit + 1}
+                  </span>{" "}
+                  -{" "}
+                  <span className="font-semibold text-dark-slate">
+                    {Math.min(tablePage * tableLimit, filteredTasks.length)}
+                  </span>{" "}
+                  {t("common.of")}{" "}
+                  <span className="font-semibold text-dark-slate">
+                    {filteredTasks.length}
+                  </span>{" "}
+                  {t("tasks.title").toLowerCase()}
+                </p>
+                <Pagination
+                  currentPage={tablePage}
+                  totalPages={totalTablePages}
+                  onPageChange={(newPage) => {
+                    setTablePage(newPage);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
