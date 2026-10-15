@@ -19,6 +19,7 @@ export default function Tasks() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterProject, setFilterProject] = useState("all");
   const [viewMode, setViewMode] = useState("kanban"); // "table", "kanban", "gantt"
+  const [seeding, setSeeding] = useState(false);
 
   const [formData, setFormData] = useState({
     projectId: "",
@@ -131,6 +132,24 @@ export default function Tasks() {
       XLSX.writeFile(wb, `Tasks_${new Date().toISOString().split('T')[0]}.xlsx`);
     } catch (err) {
       alert('Failed to export: ' + err.message);
+    }
+  };
+
+  const handleSeedData = async () => {
+    if (!confirm(t("tasks.seedConfirm"))) return;
+    setSeeding(true);
+    try {
+      const res = await apiFetch("/api/tasks/seed", {
+        method: "POST",
+        body: JSON.stringify({ reset: true })
+      });
+      alert(res.message || t("tasks.seedSuccess"));
+      await loadTasks();
+      await loadProjects();
+    } catch (err) {
+      alert("Failed to seed tasks: " + err.message);
+    } finally {
+      setSeeding(false);
     }
   };
 
@@ -277,15 +296,26 @@ export default function Tasks() {
             </button>
 
             {(!currentUser || currentUser.role === "PM" || currentUser.role === "Admin") && (
-              <button
-                onClick={() => {
-                  resetForm();
-                  setShowForm(true);
-                }}
-                className="flex-1 btn-coral text-xs py-2 px-3 sm:flex-initial sm:px-4"
-              >
-                <span>+ {t("tasks.newTask")}</span>
-              </button>
+              <>
+                <button
+                  onClick={handleSeedData}
+                  disabled={seeding}
+                  className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-purple-300 bg-purple-50 px-3 py-2 text-xs font-semibold text-purple-700 transition-all hover:bg-purple-100 hover:border-purple-400 active:scale-[0.98] sm:flex-initial sm:px-4 disabled:opacity-50 shadow-sm"
+                  title={t("tasks.seedTooltip")}
+                >
+                  <span>{seeding ? "⏳" : "🌱"}</span>
+                  <span>{seeding ? t("tasks.seeding") : t("tasks.seedData")}</span>
+                </button>
+                <button
+                  onClick={() => {
+                    resetForm();
+                    setShowForm(true);
+                  }}
+                  className="flex-1 btn-coral text-xs py-2 px-3 sm:flex-initial sm:px-4"
+                >
+                  <span>+ {t("tasks.newTask")}</span>
+                </button>
+              </>
             )}
           </div>
         </div>

@@ -90,19 +90,38 @@ INSERT INTO "Project" ("id", "name", "description", "status", "startDate", "endD
 -- Reset sequence generator untuk Project.id
 SELECT setval(pg_get_serial_sequence('"Project"', 'id'), coalesce(max(id), 1)) FROM "Project";
 
--- Insert Sample Tasks
+-- Insert Sample Tasks (25 tasks across all 5 projects)
 INSERT INTO "Task" ("id", "projectId", "title", "description", "status", "priority", "assigneeId", "startDate", "dueDate", "progress", "createdAt", "updatedAt") VALUES
-(1, 1, 'Design homepage mockup', 'Create high-fidelity mockup for new homepage', 'Done', 'High', 3, '2026-01-29 00:00:00', '2026-02-05 00:00:00', 100, NOW(), NOW()),
-(2, 1, 'Implement responsive header', 'Code responsive navigation header with mobile menu', 'In Progress', 'High', 4, '2026-02-03 00:00:00', '2026-02-10 00:00:00', 60, NOW(), NOW()),
-(3, 1, 'Setup analytics tracking', 'Integrate Google Analytics and heatmap tools', 'To Do', 'Medium', 3, '2026-02-12 00:00:00', '2026-02-15 00:00:00', 0, NOW(), NOW()),
-(4, 2, 'Research cross-platform frameworks', 'Compare React Native vs Flutter', 'Done', 'High', 3, NULL, '2026-02-03 00:00:00', 100, NOW(), NOW()),
-(5, 2, 'Setup development environment', 'Install and configure React Native toolchain', 'In Progress', 'High', 4, NULL, '2026-02-08 00:00:00', 75, NOW(), NOW()),
-(6, 2, 'Create app architecture diagram', 'Design overall application architecture', 'To Do', 'Medium', 3, NULL, '2026-02-12 00:00:00', 0, NOW(), NOW()),
-(7, 3, 'Review payment gateway documentation', 'Study Stripe API documentation', 'Done', 'High', 4, NULL, '2026-01-25 00:00:00', 100, NOW(), NOW()),
-(8, 3, 'Implement payment endpoint', 'Create API endpoint for payment processing', 'In Progress', 'High', 4, NULL, '2026-02-08 00:00:00', 40, NOW(), NOW()),
-(9, 3, 'Write integration tests', 'Create unit and integration tests for payment flow', 'To Do', 'Medium', 3, NULL, '2026-02-20 00:00:00', 0, NOW(), NOW()),
-(10, 1, 'Fix mobile menu bug', 'Menu not closing on mobile devices', 'To Do', 'High', 4, NULL, '2026-02-07 00:00:00', 0, NOW(), NOW()),
-(11, 3, 'Review security audit', 'Review payment security audit results', 'In Progress', 'High', 3, NULL, '2026-02-08 00:00:00', 30, NOW(), NOW());
+-- Project 1: Website Redesign
+(1, 1, 'Design homepage & landing page mockup', 'Create high-fidelity mockups in Figma with modern design system tokens', 'Done', 'High', 3, '2026-01-18 00:00:00', '2026-01-30 00:00:00', 100, NOW(), NOW()),
+(2, 1, 'Implement responsive header & navigation bar', 'Develop responsive navigation header with hamburger menu and blur effects', 'In Progress', 'High', 4, '2026-01-28 00:00:00', '2026-02-15 00:00:00', 60, NOW(), NOW()),
+(3, 1, 'Accessibility (a11y) & typography contrast audit', 'Audit typography sizes, heading hierarchy, and contrast ratios for WCAG AA', 'Review', 'Medium', 3, '2026-02-08 00:00:00', '2026-02-22 00:00:00', 85, NOW(), NOW()),
+(4, 1, 'Setup analytics tracking & conversion goals', 'Integrate Google Analytics 4, heatmaps, and event tracking for CTA buttons', 'To Do', 'Medium', 3, '2026-02-20 00:00:00', '2026-03-05 00:00:00', 0, NOW(), NOW()),
+(5, 1, 'Fix mobile menu backdrop blur glitch', 'Investigate and resolve backdrop-filter rendering issues on iOS Safari', 'To Do', 'High', 4, '2026-02-16 00:00:00', '2026-02-26 00:00:00', 0, NOW(), NOW()),
+-- Project 2: Mobile App Development
+(6, 2, 'Research cross-platform frameworks (React Native vs Flutter)', 'Evaluate performance, community support, and ecosystem for mobile foundation', 'Done', 'High', 3, '2026-02-05 00:00:00', '2026-02-20 00:00:00', 100, NOW(), NOW()),
+(7, 2, 'Setup development environment & CI/CD workflow', 'Configure React Native toolchain, Metro bundler, Fastlane, and GitHub Actions', 'In Progress', 'High', 4, '2026-02-18 00:00:00', '2026-03-10 00:00:00', 75, NOW(), NOW()),
+(8, 2, 'Create app architecture diagram & state management RFC', 'Design app state flow, offline-first data caching strategy, and modular architecture', 'Review', 'High', 4, '2026-03-01 00:00:00', '2026-03-20 00:00:00', 90, NOW(), NOW()),
+(9, 2, 'Implement authentication flow (Biometrics & OAuth)', 'Implement sign-in with Google/Apple, biometric auth, and secure JWT storage', 'To Do', 'High', 3, '2026-03-15 00:00:00', '2026-04-10 00:00:00', 0, NOW(), NOW()),
+(10, 2, 'Push notification service integration', 'Integrate Firebase Cloud Messaging (FCM) and Apple Push Notifications (APNs)', 'To Do', 'Medium', 4, '2026-04-01 00:00:00', '2026-04-25 00:00:00', 0, NOW(), NOW()),
+-- Project 3: API Integration
+(11, 3, 'Review payment gateway documentation & API specifications', 'Thoroughly review gateway API specs, idempotency keys, and webhook security', 'Done', 'High', 4, '2026-01-22 00:00:00', '2026-01-28 00:00:00', 100, NOW(), NOW()),
+(12, 3, 'Implement payment checkout & charge endpoint', 'Create REST API endpoints to initiate payments and validate currency amounts', 'In Progress', 'High', 4, '2026-01-27 00:00:00', '2026-02-10 00:00:00', 50, NOW(), NOW()),
+(13, 3, 'Review security audit & PCI-DSS compliance', 'Validate compliance with PCI-DSS requirements, ensuring zero raw card storage', 'Review', 'High', 3, '2026-02-04 00:00:00', '2026-02-15 00:00:00', 85, NOW(), NOW()),
+(14, 3, 'Write integration tests for payment webhook flow', 'Develop automated tests to simulate webhook events and signature verification', 'To Do', 'Medium', 3, '2026-02-12 00:00:00', '2026-02-22 00:00:00', 0, NOW(), NOW()),
+(15, 3, 'Setup automated alert monitoring for failed transactions', 'Configure alerting via Slack/Discord and Prometheus metrics for failure spikes', 'To Do', 'Low', 4, '2026-02-18 00:00:00', '2026-02-27 00:00:00', 0, NOW(), NOW()),
+-- Project 4: Database Migration
+(16, 4, 'Analyze schema differences and data type mapping', 'Audit MySQL tables, data types, indexes, and constraints for PostgreSQL', 'Done', 'High', 4, '2025-12-03 00:00:00', '2025-12-12 00:00:00', 100, NOW(), NOW()),
+(17, 4, 'Create automated migration scripts & constraints', 'Write ETL migration scripts with Prisma schema migrations and sequence resets', 'Done', 'High', 4, '2025-12-10 00:00:00', '2025-12-22 00:00:00', 100, NOW(), NOW()),
+(18, 4, 'Dry-run data migration on staging database', 'Execute full migration rehearsal on staging with production-sized dataset', 'Done', 'High', 3, '2025-12-20 00:00:00', '2026-01-02 00:00:00', 100, NOW(), NOW()),
+(19, 4, 'Validate data integrity & query performance benchmarking', 'Run comprehensive row count checks and benchmark critical application queries', 'Done', 'Medium', 3, '2026-01-01 00:00:00', '2026-01-08 00:00:00', 100, NOW(), NOW()),
+(20, 4, 'Production database cutover and rollback verification', 'Execute live cutover during maintenance window with automated health checks', 'Done', 'High', 4, '2026-01-08 00:00:00', '2026-01-14 00:00:00', 100, NOW(), NOW()),
+-- Project 5: Marketing Campaign
+(21, 5, 'Formulate campaign goals & target audience personas', 'Define key campaign objectives, target customer segments, and CPA/ROAS metrics', 'Done', 'High', 2, '2025-11-04 00:00:00', '2025-11-15 00:00:00', 100, NOW(), NOW()),
+(22, 5, 'Design creative banners & promotional assets', 'Produce visual assets for social media, Google Display Network, and landing pages', 'Done', 'Medium', 3, '2025-11-12 00:00:00', '2025-11-28 00:00:00', 100, NOW(), NOW()),
+(23, 5, 'Copywriting for email newsletter & ad headlines', 'Draft persuasive ad copy, value propositions, and a 3-part nurture sequence', 'Done', 'Medium', 2, '2025-11-20 00:00:00', '2025-12-05 00:00:00', 100, NOW(), NOW()),
+(24, 5, 'Launch Google Ads & Meta advertising campaign', 'Configure ad groups, targeting parameters, pixel conversion tracking, and launch', 'Done', 'High', 4, '2025-12-01 00:00:00', '2025-12-15 00:00:00', 100, NOW(), NOW()),
+(25, 5, 'Campaign performance review & ROI analytics report', 'Analyze campaign metrics, conversion funnel drop-offs, and calculate final ROAS', 'Done', 'Low', 2, '2025-12-16 00:00:00', '2025-12-30 00:00:00', 100, NOW(), NOW());
 
 -- Reset sequence generator untuk Task.id
 SELECT setval(pg_get_serial_sequence('"Task"', 'id'), coalesce(max(id), 1)) FROM "Task";

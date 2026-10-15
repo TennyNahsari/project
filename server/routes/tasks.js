@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { authMiddleware } from "../middleware/auth.js";
 import { roleMiddleware } from "../middleware/role.js";
 import { createNotification } from "./notifications.js";
+import { seedTasksForProjects } from "../prisma/taskSeederHelper.js";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -77,6 +78,24 @@ router.get("/:id", authMiddleware, async (req, res) => {
     }
     res.json(task);
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Seed tasks adapting to existing projects
+router.post("/seed", authMiddleware, roleMiddleware(["PM", "Admin"]), async (req, res) => {
+  try {
+    const { reset = false, projectId } = req.body || {};
+    const result = await seedTasksForProjects(prisma, {
+      reset: Boolean(reset),
+      specificProjectId: projectId ? parseInt(projectId) : null
+    });
+    res.json({
+      message: `Successfully seeded ${result.tasksCreated} tasks adapting to ${result.projectsCount} projects!`,
+      ...result
+    });
+  } catch (err) {
+    console.error("Task seed error:", err);
     res.status(500).json({ message: err.message });
   }
 });

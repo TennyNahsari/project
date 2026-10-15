@@ -136,7 +136,12 @@
       "low": "Rendah",
       "medium": "Sedang",
       "high": "Tinggi"
-    }
+    },
+    "seedData": "Seeder Data Task",
+    "seeding": "Memproses Seeder...",
+    "seedTooltip": "Buat seeder tugas menyesuaikan proyek yang ada",
+    "seedConfirm": "Buat seeder data task yang menyesuaikan seluruh proyek yang sudah ada? Ini akan mengisi task, subtask, dan worklog untuk setiap proyek.",
+    "seedSuccess": "Seeder data task berhasil dibuat!"
   },
   "activities": {
     "title": "Log Aktivitas",

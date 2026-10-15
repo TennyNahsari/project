@@ -136,7 +136,12 @@
       "low": "Low",
       "medium": "Medium",
       "high": "High"
-    }
+    },
+    "seedData": "Seed Demo Tasks",
+    "seeding": "Seeding Tasks...",
+    "seedTooltip": "Generate sample tasks adapting to existing projects",
+    "seedConfirm": "Generate sample tasks matching all existing projects? This will populate realistic tasks, subtasks, and worklogs for each project.",
+    "seedSuccess": "Sample tasks generated successfully!"
   },
   "activities": {
     "title": "Activity Log",
