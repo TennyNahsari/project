@@ -7,7 +7,8 @@
     "dev": "node --watch index.js",
     "start": "node index.js",
     "seed": "node prisma/seed.js",
-    "seed:tasks": "node prisma/seed-tasks.js"
+    "seed:tasks": "node prisma/seed-tasks.js",
+    "seed:tasks:reset": "node prisma/seed-tasks.js --reset"
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",
