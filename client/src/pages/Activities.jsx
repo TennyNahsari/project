@@ -7,7 +7,7 @@ import Pagination from "../components/Pagination.jsx";
 export default function Activities() {
   const { t } = useLanguage();
   const [activities, setActivities] = useState([]);
-  const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0, totalPages: 0 });
+  const [pagination, setPagination] = useState({ page: 1, limit: 15, total: 0, totalPages: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -95,11 +95,29 @@ export default function Activities() {
 
         {/* Pagination */}
         {!loading && pagination.totalPages > 1 && (
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col items-center justify-between gap-3 sm:flex-row">
+            <p className="text-xs text-soft-stone">
+              {t("common.showing")}{" "}
+              <span className="font-semibold text-dark-slate">
+                {(pagination.page - 1) * pagination.limit + 1}
+              </span>{" "}
+              -{" "}
+              <span className="font-semibold text-dark-slate">
+                {Math.min(pagination.page * pagination.limit, pagination.total)}
+              </span>{" "}
+              {t("common.of")}{" "}
+              <span className="font-semibold text-dark-slate">
+                {pagination.total}
+              </span>{" "}
+              {t("activities.title").toLowerCase()}
+            </p>
             <Pagination
               currentPage={pagination.page}
               totalPages={pagination.totalPages}
-              onPageChange={(newPage) => setPagination({ ...pagination, page: newPage })}
+              onPageChange={(newPage) => {
+                setPagination({ ...pagination, page: newPage });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
             />
           </div>
         )}

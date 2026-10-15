@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 // Get activity logs
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const { projectId, page = 1, limit = 20 } = req.query;
+    const { projectId, page = 1, limit = 15 } = req.query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
     
     // For now, we'll create activity log from comments and task changes
