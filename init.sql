@@ -50,7 +50,8 @@ CREATE TABLE "Task" (
     "progress" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "startDate" TIMESTAMP(3)
+    "startDate" TIMESTAMP(3),
+    "estimatedHours" DOUBLE PRECISION
 );
 
 -- 4. Table Comment
