@@ -13,7 +13,8 @@ cd "$SCRIPT_DIR"
 
 # Pull latest changes
 echo "📥 Pulling latest code from repository..."
-git pull origin main || {
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "master")
+git pull origin "$CURRENT_BRANCH" || git pull || {
     echo "⚠️  Git pull failed. Skipping..."
 }
 
